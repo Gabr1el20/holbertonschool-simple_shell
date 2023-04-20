@@ -9,10 +9,8 @@ int main(int ac, char *av[])
 	const char *delimitator = " \n";
 	int tokens = 0, i, status;
 	pid_t pid;
-
 	(void)ac;
-
-	while(1)
+	while (1)
 	{
 		printf("# ");
 		read = getline(&command, &len, stdin);
@@ -22,42 +20,30 @@ int main(int ac, char *av[])
 			sleep(1);
 			exit(1);
 		}
-
-		copycom = malloc(sizeof(char *) *read);
+		copycom = malloc(sizeof(char *) * read);
 		if (copycom == NULL)
 		{
 			perror("./shell:");
 			return (-1);
 		}
 		strcpy(copycom, command);
-
 		token = strtok(command, delimitator);
-
 		while (token != NULL)
 		{
 			tokens++;
 			token = strtok(NULL, delimitator);
 		}
 		tokens++;
-
 		av = malloc(sizeof(char *) * tokens);
-
-
 		token = strtok(copycom, delimitator);
-
 		for (i = 0; token != NULL; i++)
 		{
 			av[i] = malloc(sizeof(char) * strlen(token));
 			strcpy(av[i], token);
-
-			token =strtok(NULL, delimitator);
+			token = strtok(NULL, delimitator);
 		}
 		av[i] = NULL;
-
-		printf("%s\n", command);
-
 		pid = fork();
-
 		if (pid == -1)
 		{
 			perror("Error: PID");

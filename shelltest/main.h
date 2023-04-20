@@ -10,5 +10,10 @@
 
 
 void exq(char **argv);
+int main (int ac, char *av[]);
+char *readcom(void);
+char **tokenize(char *command);
+void free_tokens(char **tokens, int num_tokens);
+void exq(char **tokens);
 
 #endif

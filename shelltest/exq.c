@@ -1,14 +1,27 @@
 #include "main.h"
 
-void exq(char **argv)
+void exq(char **tokens)
 {
-    char *command = NULL;
+    pid_t pid;
+    int status;
 
-    if (argv)
+    pid = fork();
+    if (pid == -1)
     {
-        command = argv[0];
-
-        if (execve(command, argv, NULL) == -1)
+        perror("./shell");
+        exit(1);
+    }
+    else if (pid == 0)
+    {
+        if (execve(tokens[0], tokens, NULL) == -1)
+        {
+            perror("./shell");
+            exit(1);
+        }
+    }
+    else
+    {
+        if(waitpid(pid, &status, 0) == -1)
         {
             perror("./shell");
         }
