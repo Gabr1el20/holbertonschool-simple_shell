@@ -1,26 +1,77 @@
 #include "main.h"
 
-
-int main(int ac, char *argv[])
+int main(int ac, char *av[])
 {
-	char *prompt = NULL, *copy = NULL;
-	size_t tam = 0;
+	char *command = NULL, *copycom = NULL;
+	size_t len = 0;
 	ssize_t read;
-	const char *del = " \n";
+	char *token;
+	const char *delimitator = " \n";
+	int tokens = 0, i, status;
+	pid_t pid;
 
+	(void)ac;
 
 	while(1)
 	{
-		printf("SH: ");
-		read = getline(&prompt, &tam, stdin);
+		printf("# ");
+		read = getline(&command, &len, stdin);
 		if (read == -1)
 		{
-			printf("Saliendo ...\n");
+			printf("Saliendo...\n");
 			sleep(1);
 			exit(1);
 		}
-		printf("%s\n", prompt);
+
+		copycom = malloc(sizeof(char *) *read);
+		if (copycom == NULL)
+		{
+			perror("./shell:");
+			return (-1);
+		}
+		strcpy(copycom, command);
+
+		token = strtok(command, delimitator);
+
+		while (token != NULL)
+		{
+			tokens++;
+			token = strtok(NULL, delimitator);
+		}
+		tokens++;
+
+		av = malloc(sizeof(char *) * tokens);
+
+
+		token = strtok(copycom, delimitator);
+
+		for (i = 0; token != NULL; i++)
+		{
+			av[i] = malloc(sizeof(char) * strlen(token));
+			strcpy(av[i], token);
+
+			token =strtok(NULL, delimitator);
+		}
+		av[i] = NULL;
+
+		printf("%s\n", command);
+
+		pid = fork();
+
+		if (pid == -1)
+		{
+			perror("Error: PID");
+		}
+		else if (pid == 0)
+		{
+			exq(av);
+		}
+		else
+		{
+			wait(&status);
+		}
 	}
-	free(prompt);
+	free(copycom);
+	free(command);
 	return (0);
 }

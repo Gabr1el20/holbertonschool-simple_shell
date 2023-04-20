@@ -3,8 +3,8 @@
 void main(void)
 {
 	int a = 10, b = 5, sum = a + b;
-	pid_t ppid = getppid();
+	pid_t pid = getpid();
 
 	printf("La suma es: %d\n", sum);
-	printf("El PpID es: %u\n", ppid);
+	printf("El PID es: %u\n", pid);
 }

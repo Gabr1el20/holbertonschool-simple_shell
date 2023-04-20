@@ -8,4 +8,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+
+void exq(char **argv);
+
 #endif
