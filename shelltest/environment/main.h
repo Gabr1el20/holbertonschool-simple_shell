@@ -6,3 +6,9 @@
 
 char *_getenv(const char *name);
 void print_PATH(void);
+
+typedef struct path_node
+{
+    char *direc;
+    struct path_node *next;
+} path_node_t;

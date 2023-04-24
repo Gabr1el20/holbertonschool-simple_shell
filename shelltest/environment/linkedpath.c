@@ -2,13 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+char *_getenv(const char *name);
+
 typedef struct path_node {
     char *dir;
     struct path_node *next;
 } path_node_t;
 
-path_node_t *build_path_list() {
-    char *path_var = getenv("PATH");
+path_node_t *build_path_list()
+ {
+    char *path_var = _getenv("PATH");
     if (path_var == NULL) {
         printf("PATH environment variable not found.\n");
         return NULL;

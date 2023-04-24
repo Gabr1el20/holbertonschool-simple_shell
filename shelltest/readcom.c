@@ -1,18 +1,18 @@
 #include "main.h"
 
-char *readcom(void)
+char *readcom()
 {
-    char *command = NULL;
-    size_t size = 0;
-    ssize_t read;
+	char *command = NULL;
+	size_t len = 0;
+	ssize_t read;
 
-    read = getline(&command, &size, stdin);
-    if (read == -1)
-    {
-        return (NULL);
-    }
-    else
-    {
-        return (command);
-    }
+	printf("$ ");
+	read = getline(&command, &len, stdin);
+	if (read == -1)
+	{
+		free(command);
+		printf("Exiting...\n");
+		exit(EXIT_FAILURE);
+	}
+	return (command);
 }
