@@ -18,7 +18,7 @@ int main(int ac, char **av)
 
 	while (1)
 	{
-		command = readcom();
+		command = readcom();  /*leer la entrada*/
 		copycom = malloc(sizeof(char) * strlen(command) + 1);
 		if (copycom == NULL)
 		{
@@ -35,8 +35,8 @@ int main(int ac, char **av)
 			perror("./shell");
 			return (-1);
 		}
-		create_tokens(copycom, av, delim);
-		exq(av);
+		create_tokens(copycom, av, delim);  /*delimitar*/
+		exq(av); /*ejecutar*/
 		free_tokens(av);
 		free(copycom);
 		free(command);

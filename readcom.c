@@ -11,8 +11,8 @@ char *readcom()
 	if (read == -1)
 	{
 		free(command);
-		printf("Exiting...\n");
-		exit(EXIT_FAILURE);
+		perror("./shell");
+		return (NULL);
 	}
 	return (command);
 }
