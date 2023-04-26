@@ -12,38 +12,40 @@ int checkemptiness(char *command)
     return (1);
 }
 
-char **splitter(char *input)
+char **splitter(char *command)
 {
-	char *token, *inputcpy, **inputarray;
-	int wordcounter = 0, arraycounter = 0, cfinder = 0;
+	char *token, *copia, **argus;
+	int wc = 0, count = 0, lupe = 0;
+    const char *delim = " \n\t";
 
-
-	while (input[cfinder])
-	{
-		if (input[cfinder] == '\t' || input[cfinder] == '\n' || input[cfinder] == 32)
-		{
-			cfinder++;
-			wordcounter++;
-		}
-		cfinder++;
-	}
-	inputarray = malloc(sizeof(char *) * (wordcounter + 1));
-	if (inputarray == NULL)
-	{
-		free(inputarray);
-		perror("Malloc error: ");
-		exit(-1);
-	}
-	inputcpy = strdup(input);
-	token = strtok(inputcpy, " \t\n");
-	for (arraycounter = 0; token; arraycounter++)
-	{
-		inputarray[arraycounter] = strdup(token);
-		token = strtok(NULL, " \t\n");
-	}
-	inputarray[arraycounter] = NULL;
-	free(inputcpy);
-	return (inputarray);
+    while (command[lupe] != '\0')
+    {
+        if (command[lupe] == '\n' || command[lupe] == '\t' || command[lupe] == ' ')
+        {
+            lupe++;
+            wc++;
+            continue;
+        }
+        lupe++;
+    }
+    argus = malloc(sizeof(char *) * (wc + 1));
+    if (!argus)
+    {
+        free(argus);
+        perror("./shellmalloc");
+        exit(0);
+    }
+    copia = strdup(command);
+    token = strtok(copia, delim);
+    while (token)
+    {
+        argus[count] = strdup(token);
+        token = strtok(NULL, delim);
+        count++;
+    }
+    argus[count] = NULL;
+    free(copia);
+    return (argus);
 }
 
 int exq(char **av)
