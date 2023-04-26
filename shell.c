@@ -1,13 +1,5 @@
 #include "main.h"
 
-/**
- * main - main function
- * @ac: count of args.
- * @av: Args
- *
- * Return: 0 (always success)
-*/
-
 int main(int ac, char **av)
 {
 	char *command = NULL, *copycom = NULL;
@@ -20,13 +12,14 @@ int main(int ac, char **av)
 	{
 		isatty(0) == 1? write(1, "$ ", 2) : 0;
 		command = readcom();
-		if (strlen(command) == 1)
+		if (command == NULL || strlen(command) == 1)
 		{
 			continue;
 		}
 		copycom = malloc(sizeof(char) * strlen(command) + 1);
 		if (copycom == NULL)
 		{
+			free(command);
 			free(copycom);
 			perror("./shell");
 			return (-1);
@@ -36,16 +29,15 @@ int main(int ac, char **av)
 		av = malloc(sizeof(char *) * tokens);
 		if (av == NULL)
 		{
+			free(command);
 			free(av);
 			perror("./shell");
 			return (-1);
 		}
 		create_tokens(copycom, av, delim);  /*delimitar*/
 		exq(av); /*ejecutar*/
-		free_tokens(av);
 		free(copycom);
 		free(command);
 	}
 	return (0);
 }
-

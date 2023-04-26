@@ -13,5 +13,9 @@ char *readcom()
 		perror("./shell");
 		return (NULL);
 	}
+	if (command[read - 1] = '\n')
+	{
+		command[read - 1] = '\0';
+	}
 	return (command);
 }

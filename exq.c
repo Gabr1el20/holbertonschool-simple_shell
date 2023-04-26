@@ -23,21 +23,21 @@ void exq(char **av)
 				if (execve(PATH_com, av, NULL) == -1)
 				{
 					perror("./shell");
-					exit(EXIT_FAILURE);
+					return;
 				}
 			}
 			else
 			{
 				wait(&status);
 				free(PATH_com);
+				av[0] = NULL;
 				break;
 			}
 		}
 		if (!PATH_com)
 		{
 			perror("errorr");
-			exit(EXIT_FAILURE);
+			return;
 		}
 	}
 }
-

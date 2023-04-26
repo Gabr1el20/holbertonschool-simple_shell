@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
     while (1)
     {
-        printf("$ ");
+        isatty(0) == 1? write(1, "$ ", 2) : 0;
 
         ssize_t bytesNum = getline(&command, &len, stdin);
         if (bytesNum == -1)

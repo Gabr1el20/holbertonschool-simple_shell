@@ -22,7 +22,7 @@ void create_tokens(char *command, char **av, const char *delim)
 
 	while(token != NULL)
 	{
-		av[i] = malloc(sizeof(char) * (strlen(token) + 1));
+		av[i] = malloc(sizeof(char) * (strlen(token)));
 		strcpy(av[i], token);
 		token = strtok(NULL, delim);
 		i++;
