@@ -22,7 +22,6 @@ char *getpath(char *command)
 				free(copypath);
 				return (NULL);
 			}
-			
 			strcpy(encount, tokenp);
 			strcat(encount, "/");
 			strcat(encount, command);
@@ -40,7 +39,6 @@ char *getpath(char *command)
 			}
 		}
 		free(copypath);
-		return (NULL);
 	}
 	return (command);
 }

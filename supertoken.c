@@ -12,14 +12,15 @@ int count_tokens(char *command, const char *delim)
 		token = strtok(NULL, delim);
 	}
 	return (argstok);
+
 }
 
 void create_tokens(char *command, char **av, const char *delim)
 {
 	int i = 0;
-	char *token = strtok(command, delim);
+	char *token = strtok (command, delim);
 
-	while (token != NULL)
+	while(token != NULL)
 	{
 		av[i] = malloc(sizeof(char) * (strlen(token)));
 		strcpy(av[i], token);
@@ -32,7 +33,7 @@ void create_tokens(char *command, char **av, const char *delim)
 void free_tokens(char **av)
 {
 	int i;
-
+	
 	for (i = 0; av[i] != NULL; i++)
 	{
 		free(av[i]);
