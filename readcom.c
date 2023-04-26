@@ -15,7 +15,7 @@ char *readcom()
 	}
 	if (command[read - 1] == '\n')
 	{
-		command[read - 1] == '\0';
+		command[read - 1] = '\0';
 	}
 	return (command);
 }
