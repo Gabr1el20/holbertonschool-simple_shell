@@ -6,7 +6,6 @@ char *readcom()
 	size_t len = 0;
 	ssize_t read;
 
-	printf("$ ");
 	read = getline(&command, &len, stdin);
 	if (read == -1)
 	{

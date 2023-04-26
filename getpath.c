@@ -17,6 +17,11 @@ char *getpath(char *command)
 		{
 			dirlen = strlen(tokenp);
 			encount = malloc(comlen + dirlen + 2);
+			if (encount == NULL)
+			{
+				free(copypath);
+				return (NULL);
+			}
 			strcpy(encount, tokenp);
 			strcat(encount, "/");
 			strcat(encount, command);
@@ -34,11 +39,6 @@ char *getpath(char *command)
 			}
 		}
 		free(copypath);
-		if (stat(command, &st) == 0)
-		{
-			return (command);
-		}
-		return (NULL);
 	}
-	return (NULL);
+	return (command);
 }

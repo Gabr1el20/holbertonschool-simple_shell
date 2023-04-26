@@ -9,25 +9,35 @@ void exq(char **av)
 	if (av)
 	{
 		comando = av[0];
-		PATH_com = getpath(comando);
 
-		pid = fork();
-		if (pid == -1)
+		while ((PATH_com = getpath(comando)))
 		{
-			perror("./shell");
-			exit(EXIT_FAILURE);
-		}
-		else if (pid == 0)
-		{
-			if (execve(PATH_com, av, NULL) == -1)
+			pid = fork();
+			if (pid == -1)
 			{
 				perror("./shell");
 				exit(EXIT_FAILURE);
 			}
+			else if (pid == 0)
+			{
+				if (execve(PATH_com, av, NULL) == -1)
+				{
+					perror("./shell");
+					exit(EXIT_FAILURE);
+				}
+			}
+			else
+			{
+				wait(&status);
+				free(PATH_com);
+				break;
+			}
 		}
-		else
+		if (!PATH_com)
 		{
-			wait(&status);
+			perror("errorr");
+			exit(EXIT_FAILURE);
 		}
 	}
 }
+

@@ -18,7 +18,12 @@ int main(int ac, char **av)
 
 	while (1)
 	{
-		command = readcom();  /*leer la entrada*/
+		isatty(0) == 1? write(1, "$ ", 2) : 0;
+		command = readcom();
+		if (strlen(command) == 1)
+		{
+			continue;
+		}
 		copycom = malloc(sizeof(char) * strlen(command) + 1);
 		if (copycom == NULL)
 		{
