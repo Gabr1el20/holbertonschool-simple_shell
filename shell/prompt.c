@@ -1,96 +1,118 @@
-#include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <errno.h>
 
-int main(int argc, char *argv[])
-{
-    char *command = NULL;
-    size_t len = 0;
-    char *copia = NULL;
-    char *token = NULL;
-    int tokenNum = 0;
+#define MAX_LINE 80
 
-    while (1)
-    {
-        printf("$ ");
+char *builtin_str[] = {"exit", "env"};
 
-        ssize_t bytesNum = getline(&command, &len, stdin);
-        if (bytesNum == -1)
-        {
-            perror("Error: ");
-            exit(1);
-        }
+int num_builtins() {
+    return sizeof(builtin_str) / sizeof(char *);
+}
 
-        copia = malloc(sizeof(char) * (bytesNum + 1));
-        if (copia == NULL)
-        {
-            perror("Error: ");
-            exit(1);
-        }
-        strcpy(copia, command);
-        token = strtok(command, " \n");
-        while (token != NULL)
-        {
-            tokenNum++;
-            token = strtok(NULL, " \n");
-        }
-        tokenNum++;
-        char **args = malloc(sizeof(char *) * tokenNum);
-        if (args == NULL)
-        {
-            perror("Error: ");
-            exit(1);
-        }
-        token = strtok(copia, " \n");
+int shell_exit(char **args) {
+    return 0;
+}
 
-        int i;
-        for (i = 0; token != NULL; i++)
-        {
-            args[i] = malloc(sizeof(char) * (strlen(token) + 1));
-            if (args[i] == NULL)
-            {
-                perror("Error: ");
-                exit(1);
-            }
-            strcpy(args[i], token);
-            token = strtok(NULL, " \n");
-        }
-        
-        args[i] = NULL;
+int shell_env(char **args) {
+    char **env;
 
-        printf("%s\n", command);
+    while (*env) {
+        printf("%s\n", *env++);
+    }
+    return 1;
+}
 
-        free(copia);
-        copia = NULL;
+int (*builtin_func[]) (char **) = {
+    &shell_exit,
+    &shell_env
+};
 
-        pid_t pid = fork();
-
-        if (pid == -1)
-        {
-            perror("Error1");
-        } 
-        else if (pid == 0) 
-        {   
-            if (execve(args[0], args, NULL) == -1)
-            {
-                perror("Error2");
-                exit(1);
-            }
-        } 
-        else
-        {
-            wait(NULL);
-        }
-
-        for (i = 0; i < tokenNum; i++)
-        {
-            free(args[i]);
-            args[i] = NULL;
-        }
-        free(args);
-        args = NULL;
+int execute(char **args) {
+    if (args[0] == NULL) {
+        // Empty command
+        return 1;
     }
 
-    free(command);
-    command = NULL;
+    for (int i = 0; i < num_builtins(); i++) {
+        if (strcmp(args[0], builtin_str[i]) == 0) {
+            return (*builtin_func[i])(args);
+        }
+    }
 
-    return 0;
+    pid_t pid, wpid;
+    int status;
+
+    pid = fork();
+    if (pid == 0) {
+        // Child process
+        if (execvp(args[0], args) == -1) {
+            fprintf(stderr, "Error: %s (%s)\n", args[0], strerror(errno));
+        }
+        exit(EXIT_FAILURE);
+    } else if (pid < 0) {
+        // Error forking
+        fprintf(stderr, "Error forking\n");
+    } else {
+        // Parent process
+        do {
+            wpid = waitpid(pid, &status, WUNTRACED);
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+        while (getchar() != '\n');
+    }
+
+    return 1;
+}
+
+char **parse_line(char *line) {
+    char **args = malloc(MAX_LINE * sizeof(char *));
+    char *arg;
+    int i = 0;
+
+    if (!args) {
+        fprintf(stderr, "Memory allocation error\n");
+        exit(EXIT_FAILURE);
+    }
+
+    arg = strtok(line, " \t\n");
+    while (arg != NULL) {
+        args[i++] = arg;
+        arg = strtok(NULL, " \t\n");
+    }
+    args[i] = NULL;
+
+    return args;
+}
+
+int main(void) {
+    char *line;
+    char **args;
+    int status;
+
+    do {
+        printf("> ");
+        fflush(stdout);
+
+        line = malloc(MAX_LINE * sizeof(char));
+        if (!line) {
+            fprintf(stderr, "Memory allocation error\n");
+            exit(EXIT_FAILURE);
+        }
+
+        if (fgets(line, MAX_LINE, stdin) == NULL) {
+            free(line);
+            exit(EXIT_SUCCESS);
+        }
+
+        args = parse_line(line);
+        status = execute(args);
+
+        free(line);
+        free(args);
+    } while (status);
+
+    return EXIT_SUCCESS;
 }

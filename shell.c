@@ -25,12 +25,12 @@ int main(int ac, char **av)
 			continue;
 		}
 		copycom = malloc(sizeof(char) * strlen(command) + 1);
-		if (copycom == NULL)
-		{
-			free(copycom);
-			perror("./shell");
-			return (-1);
-		}
+if (copycom == NULL)
+{
+    fprintf(stderr, "%s: %s\n", av[0], strerror(errno));
+    return (-1);
+}
+
 		strcpy(copycom, command);
 		tokens = count_tokens(command, delim) + 1;
 		av = malloc(sizeof(char *) * tokens);
