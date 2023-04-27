@@ -32,9 +32,7 @@ int exq(char **av)
 		command = av[0];
 	}
 	else
-	{
 		command = get_path(av[0]);
-	}
 	pid = fork();
 	if (pid == -1)
 	{
