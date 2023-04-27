@@ -5,7 +5,7 @@ int main(int ac, char *av[])
     char *comando = NULL, **argus;
     size_t bufsize = 0;
     ssize_t buffer = 0;
-    int status = 0;
+    int status = 0, wexit = 0;
 
     (void)ac;
     (void)av;
@@ -35,6 +35,14 @@ int main(int ac, char *av[])
         status = exq(argus);
         free_token(argus);
         free(comando);
+        if (status == -1)
+        {
+            exit(EXIT_FAILURE);
+        }
+        else
+        {
+            wexit = status;
+        }
     }
-    return (status);
+    return (wexit);
 }

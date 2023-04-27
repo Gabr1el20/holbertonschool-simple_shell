@@ -9,7 +9,7 @@ int checkemptiness(char *command)
         if (command[i] != ' ')
             return (0);
     }
-    return (1);
+    return (0);
 }
 
 char **splitter(char *command)
@@ -33,7 +33,7 @@ char **splitter(char *command)
     {
         free(argus);
         perror("./shellmalloc");
-        exit(0);
+        return NULL;
     }
     copia = strdup(command);
     token = strtok(copia, delim);
@@ -62,17 +62,24 @@ int exq(char **av)
     }
     else if (pid == 0)
     {
-        if (execve(av[0], av, NULL) == -1)
+        if (execve(av[0], av, environ) == -1)
         {
             perror("./shell");
-            return (-1);
+            exit(EXIT_FAILURE);
         }
+        return (0);
     }
     else
     {
-        wait(&status);
+        waitpid(pid, &status, 0);
         if (WIFEXITED(status))
-            status = WEXITSTATUS(status);
+        {
+            return (WEXITSTATUS(status));
+        }
+        else
+        {
+            return (-1);
+        }
     }
     return (status);
 }
