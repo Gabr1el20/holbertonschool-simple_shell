@@ -9,6 +9,7 @@ int checkemptiness(char *command)
         if (command[i] != ' ' && command[i] != '\n' && command[i] != '\t')
             return (0);
     }
+    free(command);
     return (1);
 }
 
