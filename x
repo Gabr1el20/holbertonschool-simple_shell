@@ -1,3 +1,5 @@
+#include "main.h"
+
 int main(int ac, char *av[])
 {
     char *comando = NULL, **argus;
@@ -16,9 +18,9 @@ int main(int ac, char *av[])
         if (buffer == -1)
         {
             free(comando);
-            break;
+            exit(EXIT_SUCCESS);
         }
-        comando[buffer - 1] = '\0';
+        comando[bufsize - 1] = '\0';
         if (strlen(comando) == 1)
             continue;
         if (checkemptiness(comando) == 1)
@@ -27,6 +29,10 @@ int main(int ac, char *av[])
             break;
         }
         argus = splitter(comando);
+        if (!argus)
+        {
+            free_token(argus);
+        }
         status = exq(argus);
         if (status == -1)
         {
@@ -40,6 +46,8 @@ int main(int ac, char *av[])
     }
     return (wexit);
 }
+
+#include "main.h"
 
 int checkemptiness(char *command)
 {
@@ -82,14 +90,10 @@ char **splitter(char *command)
     while (token)
     {
         argus[count] = strdup(token);
-        if (!argus[count])
-        {
-            free_token(argus);
-            return (NULL);
-        }
         token = strtok(NULL, delim);
         count++;
     }
+    argus[count] = NULL;
     free(copia);
     return (argus);
 }
@@ -132,12 +136,9 @@ int exq(char **av)
 
 void free_token(char **av)
 {
-    int i;
-    
-    if (av == NULL)
-        return;
+    int i = 0;
 
-    for (i = 0; av[i]!= NULL;i++)
+    for (; av[i] != NULL; i++)
     {
         free(av[i]);
     }

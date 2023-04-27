@@ -14,5 +14,6 @@ int checkemptiness(char *command);
 char **splitter(char *input);
 int exq(char **av);
 void free_token(char **av);
+char *get_path(char *command);
 
 #endif
