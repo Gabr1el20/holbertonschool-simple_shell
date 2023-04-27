@@ -74,11 +74,11 @@ int exq(char **av)
         waitpid(pid, &status, 0);
         if (WIFEXITED(status))
         {
-            return (WEXITSTATUS(status));
+            status = WEXITSTATUS(status);
         }
-        else
+        if (status == 0)
         {
-            return (-1);
+            return (0);
         }
     }
     return (status);

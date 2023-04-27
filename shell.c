@@ -17,7 +17,7 @@ int main(int ac, char *av[])
         buffer = getline(&comando, &bufsize, stdin);
         if (buffer == -1)
         {
-            return (-1);
+            exit(0);
         }
         comando[bufsize - 1] = '\0';
         if (strlen(comando) == 1)
