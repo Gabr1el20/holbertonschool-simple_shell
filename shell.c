@@ -17,6 +17,7 @@ int main(int ac, char *av[])
         buffer = getline(&comando, &bufsize, stdin);
         if (buffer == -1)
         {
+            free(comando);
             exit(EXIT_SUCCESS);
         }
         comando[bufsize - 1] = '\0';
@@ -42,7 +43,6 @@ int main(int ac, char *av[])
             wexit = status;
         }
         free_token(argus);
-        free(comando);
     }
     return (wexit);
 }
