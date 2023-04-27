@@ -33,7 +33,7 @@ int main(int ac, char *av[])
             free_token(argus);
         }
         status = exq(argus);
-        free(argus);
+        free_token(argus);
         free(comando);
     }
     return (status);
