@@ -17,7 +17,7 @@ int main(int ac, char *av[])
         buffer = getline(&comando, &bufsize, stdin);
         if (buffer == -1)
         {
-            exit(0);
+            exit(EXIT_SUCCESS);
         }
         comando[bufsize - 1] = '\0';
         if (strlen(comando) == 1)
@@ -25,7 +25,7 @@ int main(int ac, char *av[])
         if (checkemptiness(comando) == 1)
         {
             status = 0;
-            continue;
+            break;
         }
         argus = splitter(comando);
         if (!argus)

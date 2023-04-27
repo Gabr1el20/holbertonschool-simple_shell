@@ -6,10 +6,10 @@ int checkemptiness(char *command)
 
     for (i = 0; command[i] != '\0'; i++)
     {
-        if (command[i] != ' ')
+        if (command[i] != ' ' && command[i] != '\n' && command[i] != '\t')
             return (0);
     }
-    return (0);
+    return (1);
 }
 
 char **splitter(char *command)
