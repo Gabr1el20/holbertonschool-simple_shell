@@ -17,6 +17,7 @@ int main(int ac, char *av[])
         buffer = getline(&comando, &bufsize, stdin);
         if (buffer == -1)
         {
+            free(comando);
             exit(EXIT_SUCCESS);
         }
         comando[bufsize - 1] = '\0';
@@ -25,6 +26,7 @@ int main(int ac, char *av[])
         if (checkemptiness(comando) == 1)
         {
             status = 0;
+            free(comando);
             break;
         }
         argus = splitter(comando);
@@ -33,8 +35,6 @@ int main(int ac, char *av[])
             free_token(argus);
         }
         status = exq(argus);
-        free_token(argus);
-        free(comando);
         if (status == -1)
         {
             exit(EXIT_FAILURE);
@@ -43,6 +43,8 @@ int main(int ac, char *av[])
         {
             wexit = status;
         }
+        free_token(argus);
+        free(comando);
     }
     return (wexit);
 }
