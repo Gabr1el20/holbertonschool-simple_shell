@@ -21,7 +21,7 @@ char **splitter(char *command)
 		}
 		lupe++;
 	}
-	argus = malloc(sizeof(char *) * (wc + 1));
+	argus = malloc(sizeof(char *) * (wc + 2));
 	if (!argus)
 	{
 		free(argus);

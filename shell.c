@@ -28,7 +28,8 @@ int main(int ac, char *av[])
 			free(comando);
 			exit(EXIT_SUCCESS);
 		}
-		comando[bufsize - 1] = '\0';
+		if (comando[buffer - 1] == '\n')
+			comando[buffer - 1] = '\0';
 		if (strlen(comando) == 1)
 			continue;
 		if (checkemptiness(comando) == 1)
