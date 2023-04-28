@@ -19,18 +19,22 @@ int checkemptiness(char *command)
  * exq - Function to execute the command and its args
  * @completo: command.
  * @argus: argumentos
- * Return: the status of the execve.
+ * Return: 0 on succes, -1 on fail
 */
 int exq(char *completo, char **argus)
 {
 	pid_t pid;
-	int status;
+	int status, ret = -1;
 
 	pid = fork();
 
 	if (pid > 0)
 	{
 		wait(&status);
+		if (WIFEXITED(status && !WEXITSTATUS(status)))
+		{
+			ret = 0;
+		}
 	}
 	else if (pid == 0)
 	{
@@ -38,10 +42,10 @@ int exq(char *completo, char **argus)
 	}
 	else
 	{
-		perror("./shell");
-		free_token(argus);
+		ret = -1;
 	}
-	return (WEXITSTATUS(status));
+	free_token(argus);
+	return (ret);
 }
 
 /**

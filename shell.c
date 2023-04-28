@@ -23,13 +23,13 @@ int main(int ac __attribute__((unused)), char *av[])
 		if (comando[buffer - 1] == '\n')
 			comando[buffer - 1] = '\0';
 		if (strcmp(comando, "exit") == 0)
-			free(comando), exit(2);
+			free(comando), exit(status);
 		if (strlen(comando) == 1)
 			continue;
 		if (checkemptiness(comando) == 1)
 		{
 			status = 0;
-			break;
+			continue;
 		}
 		argus = splitter(comando);
 		if (argus && argus[0])
@@ -40,12 +40,11 @@ int main(int ac __attribute__((unused)), char *av[])
 			{
 				com = get_path(argus[0]);
 				if (com)
-					status = exq(com, argus), free(com), (status == -1) ? status = 127 : 0;
+					status = exq(com, argus), free(com), (status == -1) ? status = 2 : 0;
 				else
 					_perror(av[0], count, comando);
 			}
 		}
-		free_token(argus);
 	}
 	free(comando);
 	return (status);
