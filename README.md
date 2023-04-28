@@ -60,6 +60,8 @@
 - [support_functions.c](/support_functions.c) - Auxiliary functions.
 
 
-### Authors
+## Authors
 
-Felipe Pereira Forte & Gabriel Delgado
+[Felipe Pereira Forte](https://github.com/felipf)
+
+[Gabriel Delgado](https://github.com/Gabr1el20)
