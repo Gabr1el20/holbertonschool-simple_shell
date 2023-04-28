@@ -6,7 +6,7 @@
 */
 char *get_path(char *command)
 {
-	char *path_env = getenv("PATH"), *path = NULL;
+	char *path_env = _getenv("PATH"), *path = NULL;
 	char *token, *path_copy;
 	struct stat buffer;
 

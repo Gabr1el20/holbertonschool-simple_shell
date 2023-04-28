@@ -1,11 +1,19 @@
 #include "main.h"
 
-int main(int argc, char **argv, char **envp)
+char *_getenv(char *directory)
 {
-  for (char **env = envp; *env != 0; env++)
-  {
-    char *thisEnv = *env;
-    printf("%s\n", thisEnv);    
-  }
-  return 0;
+	char **env = environ;
+	int i = 0;
+	size_t length = strlen(directory);
+
+
+	while (env[i])
+	{
+		if (strncmp(env[i], directory, length) == 0 && env[i][length] == '=')
+		{
+			return (&(env[i][length + 1]));
+		}
+		i++;
+	}
+	return (NULL);
 }
