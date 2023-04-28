@@ -24,10 +24,7 @@ int main(int ac __attribute__((unused)), char *av[])
 		if (strlen(comando) == 1)
 			continue;
 		if (checkemptiness(comando) == 1)
-		{
-			status = 0;
 			continue;
-		}
 		argus = splitter(comando);
 		if (argus && argus[0])
 		{
@@ -45,6 +42,9 @@ int main(int ac __attribute__((unused)), char *av[])
 			}
 		}
 	}
-	free(comando);
-	return (status);
+	if (buffer == -1 || strcmp(comando, "exit\n") == 0)
+	{
+		free(comando);
+		return (status);
+	}
 }
