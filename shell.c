@@ -23,7 +23,7 @@ int main(int ac __attribute__((unused)), char *av[])
 		if (comando[buffer - 1] == '\n')
 			comando[buffer - 1] = '\0';
 		if (strcmp(comando, "exit") == 0)
-			free(comando), exit(0);
+			free(comando), exit(2);
 		if (strlen(comando) == 1)
 			continue;
 		if (checkemptiness(comando) == 1)
