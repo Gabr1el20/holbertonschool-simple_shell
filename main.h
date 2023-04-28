@@ -12,8 +12,9 @@
 extern char **environ;
 int checkemptiness(char *command);
 char **splitter(char *input);
-int exq(char **av);
+int exq(char *completo, char **av);
 void free_token(char **av);
 char *get_path(char *command);
+void _perror(char *name, int count, char *command);
 
 #endif

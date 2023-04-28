@@ -21,47 +21,37 @@ int checkemptiness(char *command)
  * @av: the command splitted.
  * Return: the status of the execve.
 */
-int exq(char **av)
+int exq(char *completo, char **argus)
 {
 	pid_t pid;
 	int status;
-	char *command;
 
-	if (av[0][0] == '/')
-	{
-		command = av[0];
-	}
-	else
-		command = get_path(av[0]);
+
 	pid = fork();
-	if (pid == -1)
+
+	if (pid > 0)
 	{
-		perror("error");
-		return (-1);
+		wait(&status);
 	}
 	else if (pid == 0)
 	{
-		if (execve(command, av, environ) == -1)
-		{
-			perror("./shell");
-			exit(EXIT_FAILURE);
-		}
-		return (0);
+		execve(completo, argus, environ);
 	}
 	else
 	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-		{
-			status = WEXITSTATUS(status);
-		}
-		if (status == 0)
-		{
-			free(command);
-			return (0);
-		}
+		perror("./shell");
+		free_token(argus);
 	}
-	free(command);
-	return (status);
+	return (WEXITSTATUS(status));
 }
 
+/**
+ * _perror - prints a message to the stderr
+ * @name: command[0]
+ * @count: instance of the iteration
+ * @command: args.
+*/
+void _perror(char *name, int count, char *command)
+{
+	fprintf(stderr, "%s: %d: %s: not found\n", name, count, command);
+}
