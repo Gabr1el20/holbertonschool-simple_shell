@@ -9,8 +9,7 @@ int main(int ac __attribute__((unused)), char *av[])
 {
 	char *comando = NULL, **argus, *com = NULL;
 	size_t bufsize = 0;
-	ssize_t buffer = 0;
-	int status = 0, count = 0;
+	int status = 0, count = 0, buffer = 0;
 	struct stat st;
 
 	while (1)

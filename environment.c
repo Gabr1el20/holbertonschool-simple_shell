@@ -1,5 +1,10 @@
 #include "main.h"
-
+/**
+ * _getenv - gets the environment
+ * @directory: direc of the environment variable
+ * Return: Direction of the environment variable, plus 1 for the '\0'.
+ * NULL otherwise
+*/
 char *_getenv(char *directory)
 {
 	char **env = environ;
