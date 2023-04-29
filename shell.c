@@ -17,10 +17,12 @@ int main(int ac __attribute__((unused)), char *av[])
 		count++;
 		isatty(0) == 1 ? write(1, "$ ", 2) : 0;
 		buffer = getline(&comando, &bufsize, stdin);
-		if (buffer == -1 || strcmp(comando, "exit\n") == 0)
+		if (buffer == -1)
 			free(comando), exit(EXIT_SUCCESS);
 		if (comando[buffer - 1] == '\n')
 			comando[buffer - 1] = '\0';
+		if (strcmp(comando, "exit") == 0)
+			break;
 		if (strlen(comando) == 1)
 			continue;
 		if (checkemptiness(comando) == 1)
@@ -42,9 +44,14 @@ int main(int ac __attribute__((unused)), char *av[])
 			}
 		}
 	}
-	if (buffer == -1 || strcmp(comando, "exit\n") == 0)
+	if (strcmp(comando, "exit") == 0)
 	{
 		free(comando);
-		return (status);
+		return (2);
+	}
+	else
+	{
+		free(comando);
+		return (0);
 	}
 }
