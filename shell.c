@@ -33,6 +33,7 @@ int main(int ac __attribute__((unused)), char *av[] __attribute__((unused)))
 			if (strcmp(splitted[0], "env") == 0)
 			{
 				_penv();
+				free_token(splitted);
 				continue;
 			}
 			status = refcommand(comando, splitted, count, av);
