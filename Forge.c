@@ -34,6 +34,7 @@ int refcommand(char *command, char **splitted, int count, char *av[])
 			else
 			{
 				_perror(av[0], count, command);
+				free_token(splitted);
 				return (127);
 			}
 			free(first);
