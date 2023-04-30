@@ -33,7 +33,7 @@ int _penv(void)
 
 	for (; *envi != NULL; envi++)
 	{
-		printf("%s\n", *envi)
-
+		printf("%s\n", *envi);
+	}
 	return (0);
 }
