@@ -59,6 +59,20 @@
 - [splitter.c](/splitter.c) - splitter and free_token function.
 - [support_functions.c](/support_functions.c) - Auxiliary functions.
 
+## Flowchart
+> Our flowchart to understand how our shell works
+
+Simplified one:<br>
+
+![flowchart_shell](/img/flowchartshell.PNG)
+
+Specific one:<br>
+
+![flowchart_shellspec2](/img/especfinalshell.PNG)
+![flowchart_shellspec](/img/flowchartespecshell.PNG)
+
+
+
 
 ## Authors
 
