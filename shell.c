@@ -17,7 +17,10 @@ int main(int ac __attribute__((unused)), char *av[] __attribute__((unused)))
 		isatty(0) == 1 ? write(1, "$ ", 2) : 0;
 		buffer = getline(&comando, &bufsize, stdin);
 		if (buffer == -1 || strcmp(comando, "exit\n") == 0)
-			free(comando), exit(EXIT_SUCCESS);
+		{
+			free(comando);
+			break;
+		}
 		if (comando[buffer - 1] == '\n')
 			comando[buffer - 1] = '\0';
 		if (strlen(comando) == 1)
@@ -25,7 +28,15 @@ int main(int ac __attribute__((unused)), char *av[] __attribute__((unused)))
 		if (checkemptiness(comando) == 1)
 			continue;
 		splitted = splitter(comando);
-		status = refcommand(comando, splitted, count, av);
+		if (splitted && splitted[0])
+		{
+			if (strcmp(splitted[0], "env") == 0)
+			{
+				_penv();
+				continue;
+			}
+			status = refcommand(comando, splitted, count, av);
+		}
 	}
 	return (status);
 }

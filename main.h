@@ -18,5 +18,6 @@ char *get_path(char *command);
 void _perror(char *name, int count, char *command);
 char *_getenv(char *directory);
 int refcommand(char *command, char **splitted, int count, char *av[]);
+int _penv();
 
 #endif

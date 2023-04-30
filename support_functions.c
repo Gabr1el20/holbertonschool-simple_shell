@@ -39,7 +39,7 @@ int exq(char *completo, char **argus)
 	else if (pid == 0)
 	{
 		execve(completo, argus, environ);
-		exit(127);
+		return(127);
 	}
 	else
 	{

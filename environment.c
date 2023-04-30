@@ -22,3 +22,17 @@ char *_getenv(char *directory)
 	}
 	return (NULL);
 }
+
+/**
+ * _penv - a function to print the environment
+ * Return: 0 (always success)
+*/
+int _penv() {
+	char **envi = environ;
+
+	for (; *envi != NULL; envi++) {
+		printf("%s\n", *envi);
+	}
+
+	return 0;
+}

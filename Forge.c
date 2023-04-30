@@ -27,13 +27,13 @@ int refcommand(char *command, char **splitted, int count, char *av[])
 				exitcode = exq(first, splitted);
 				if (exitcode == -1)
 				{
-					exit(2);
+					return(2);
 				}
 			}
 			else
 			{
 				_perror(av[0], count, command);
-				exit(127);
+				return(127);
 			}
 			free(first);
 		}
