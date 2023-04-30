@@ -25,7 +25,7 @@ int main(int ac __attribute__((unused)), char *av[] __attribute__((unused)))
 		if (checkemptiness(comando) == 1)
 			continue;
 		splitted = splitter(comando);
-		status = refcommand(comando, splitted, count);
+		status = refcommand(comando, splitted, count, av);
 	}
 	return (status);
 }

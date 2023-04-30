@@ -17,6 +17,6 @@ void free_token(char **av);
 char *get_path(char *command);
 void _perror(char *name, int count, char *command);
 char *_getenv(char *directory);
-int refcommand(char *command, char **splitted, int count);
+int refcommand(char *command, char **splitted, int count, char *av[]);
 
 #endif

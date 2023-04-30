@@ -6,7 +6,7 @@
  * @count: this is for the error message.
  * Return: 0 on succes, 2 or 127 depending the error.
 */
-int refcommand(char *command, char **splitted, int count)
+int refcommand(char *command, char **splitted, int count, char *av[])
 {
 	char *first = NULL;
 	struct stat st;
@@ -32,7 +32,7 @@ int refcommand(char *command, char **splitted, int count)
 			}
 			else
 			{
-				_perror(splitted[0], count, command);
+				_perror(av[0], count, command);
 				exit(127);
 			}
 			free(first);
