@@ -4,6 +4,7 @@
  * @command: first value of the array of strings
  * @splitted: args
  * @count: this is for the error message.
+ * @av: param for the printerror
  * Return: 0 on succes, 2 or 127 depending the error.
 */
 int refcommand(char *command, char **splitted, int count, char *av[])
@@ -27,13 +28,13 @@ int refcommand(char *command, char **splitted, int count, char *av[])
 				exitcode = exq(first, splitted);
 				if (exitcode == -1)
 				{
-					return(2);
+					return (2);
 				}
 			}
 			else
 			{
 				_perror(av[0], count, command);
-				return(127);
+				return (127);
 			}
 			free(first);
 		}
