@@ -5,12 +5,11 @@
  * @av: args.
  * Return: 0 on success, 1 on fail.
 */
-int main(int ac __attribute__((unused)), char *av[])
+int main(int ac __attribute__((unused)), char *av[] __attribute__((unused)))
 {
-	char *comando = NULL, **argus, *com = NULL;
+	char *comando = NULL, **splitted;
 	size_t bufsize = 0;
 	int status = 0, count = 0, buffer = 0;
-	struct stat st;
 
 	while (1)
 	{
@@ -25,26 +24,8 @@ int main(int ac __attribute__((unused)), char *av[])
 			continue;
 		if (checkemptiness(comando) == 1)
 			continue;
-		argus = splitter(comando);
-		if (argus && argus[0])
-		{
-			if (stat(argus[0], &st) == 0)
-				com = argus[0], status = exq(com, argus);
-			else if (stat(argus[0], &st) == -1)
-			{
-				com = get_path(argus[0]);
-				if (com)
-					status = exq(com, argus), free(com), status == -1 ? status = 2 : 0;
-			}
-			else
-			{
-				_perror(av[0], count, comando), status = 2;
-			}
-		}
+		splitted = splitter(comando);
+		status = refcommand(comando, splitted, count);
 	}
-	if (buffer == -1 || strcmp(comando, "exit\n") == 0)
-	{
-		free(comando);
-		return (status);
-	}
+	return (status);
 }

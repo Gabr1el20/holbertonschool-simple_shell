@@ -31,14 +31,15 @@ int exq(char *completo, char **argus)
 	if (pid > 0)
 	{
 		wait(&status);
-		if (WIFEXITED(status && !WEXITSTATUS(status)))
+		if (WIFEXITED(status))
 		{
-			ret = 0;
+			ret = WEXITSTATUS(status);
 		}
 	}
 	else if (pid == 0)
 	{
 		execve(completo, argus, environ);
+		exit(127);
 	}
 	else
 	{
